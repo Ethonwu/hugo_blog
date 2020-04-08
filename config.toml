@@ -1,0 +1,68 @@
+baseURL = "http://localhost:1313"
+languageCode = "en"
+title = "Ethon Blog"
+theme = "erblog"
+paginate = 3
+
+
+[params]
+    author = "Ethon Wu"
+    #logo = "//blog.ertuil.top/avater.png"
+    bio = """
+    <p> 寫寫文章，以備不時之需 </p>
+    """
+    copyright = "Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved."
+    portrait = "/img/portrait.jpg"
+
+
+[[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 10
+    
+
+# [[menu.main]]
+#     identifier = "zone"
+#     name = "Zone"
+#     url = "/zone/"
+#     weight = 10
+
+[[menu.footer]]
+    identifier = "home"
+    name = "home"
+    url = "/"
+    weight = 1
+
+[[menu.footer]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 2
+
+[taxonomies]
+#category = "categories"
+tag = "tags"
+#series = "series"
+
+[[menu.icon]]
+    url = "mailto:username@mail.com"
+    name = "envelope-o"
+    weight = 1
+
+[[menu.icon]]
+    url = "https://github.com/username/"
+    name = "github"
+    weight = 1
+
+#[[menu.icon]]
+#    url = "https://twitter.com/username"
+#    name = "twitter"
+#    weight = 1
+
+#[[menu.icon]]
+#    url = "https://www.instagram.com/username/"
+#    name = "instagram"
+#    weight = 1
+
+
