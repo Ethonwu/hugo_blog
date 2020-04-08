@@ -1,3 +1,9 @@
 [submodule "themes/erblog"]
 	path = themes/erblog
 	url = https://github.com/ertuil/erblog
+
+[submodule "public"]
+	path = public
+	url = https://github.com/Ethonwu/ethonwu.github.io.git
+	branch = master
+
