@@ -174,7 +174,7 @@ tags = [
 
 
 這邊使用 grep 將不必要的註解與空格過濾掉
-* packetbeat.interfaces.device 這邊主要是設定你要 **監聽** 的網卡名稱，可以透過 ```ip addr``` 或是 ```ifconfig``` 查看
+* packetbeat.interfaces.device 這邊主要是設定你要 **監聽** 的網卡名稱，可以透過 ip addr 或是 ifconfig 查看
 * packetbeat.protocols 在 **原始** 的設定檔中，有很多範例，不過我們只要做監聽 HTTP 的協定，因此可以將其他的協定助解掉，並且額外新增 send_request 和 include_body_for 的參數
 * output.elasticsearch 因為是丟到 logstash 做過濾，因此可以將此註解
 
