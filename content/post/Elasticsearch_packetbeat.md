@@ -75,7 +75,6 @@ tags = [
 
 
     cat /etc/logstash/conf.d/sniff_search.conf
-    
     input {
       beats {
         port => 5044
@@ -109,6 +108,7 @@ tags = [
         }
       }
     }
+
 
 
 * input 的部分，開啟 listen 的 Port，後面設定 Packetbeat 時，指定到 Logstash 的 Port 要一致
