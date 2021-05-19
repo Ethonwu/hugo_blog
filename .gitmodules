@@ -5,4 +5,3 @@
 [submodule "public"]
 	path = public
 	url = https://github.com/Ethonwu/ethonwu.github.io.git
-	branch = master
