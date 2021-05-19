@@ -6,7 +6,3 @@
 	path = public
 	url = https://github.com/Ethonwu/ethonwu.github.io.git
 	branch = master
-
-#[submodule "themes/themes/erblog"]
-#	path = themes/themes/erblog
-#	url = https://github.com/ertuil/erblog
