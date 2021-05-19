@@ -73,7 +73,7 @@ tags = [
 
 * 這邊主要是接收來自 Packetbeat 傳送過來的資料，並且解析資料取有 search API 的資料
 
-
+    
     cat /etc/logstash/conf.d/sniff_search.conf
     input {
       beats {
