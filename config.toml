@@ -46,23 +46,12 @@ tag = "tags"
 #series = "series"
 
 [[menu.icon]]
-    url = "mailto:username@mail.com"
+    url = "m10517039@gemail.yuntech.edu.tw"
     name = "envelope-o"
     weight = 1
 
 [[menu.icon]]
-    url = "https://github.com/username/"
+    url = "https://github.com/Ethonwu"
     name = "github"
     weight = 1
-
-#[[menu.icon]]
-#    url = "https://twitter.com/username"
-#    name = "twitter"
-#    weight = 1
-
-#[[menu.icon]]
-#    url = "https://www.instagram.com/username/"
-#    name = "instagram"
-#    weight = 1
-
 
