@@ -71,9 +71,9 @@ tags = [
 
 ---
 
-* 這邊主要是接收來自 Packetbeat 傳送過來的資料，並且解析資料取有 search API 的資料測試
+* 這邊主要是接收來自 Packetbeat 傳送過來的資料，並且解析資料取有 search API 的資料測試 
 
-    
+    ```
     cat /etc/logstash/conf.d/sniff_search.conf
     input {
       beats {
@@ -108,7 +108,7 @@ tags = [
         }
       }
     }
-
+    ```
 
 
 * input 的部分，開啟 listen 的 Port，後面設定 Packetbeat 時，指定到 Logstash 的 Port 要一致
@@ -154,7 +154,7 @@ tags = [
 
 * 編輯 /etc/packetbeat/packetbeat.yml 設定檔，指定監聽的網卡以及 Port 號
 
-    
+    ```
     root@es1:~# cat /etc/packetbeat/packetbeat.yml | grep -v "#\|^$"
     packetbeat.interfaces.device: eth0
     packetbeat.flows:
@@ -171,7 +171,7 @@ tags = [
       host: "192.168.30.39:5601"
     output.logstash:
       hosts: ["192.168.30.174:5044"]
-    
+    ```
 
 這邊使用 grep 將不必要的註解與空格過濾掉
 * packetbeat.interfaces.device 這邊主要是設定你要 **監聽** 的網卡名稱，可以透過 ip addr 或是 ifconfig 查看
@@ -212,6 +212,7 @@ tags = [
 
 * 對 Elasticsearch 做查詢
 
+    ```
     root@es1:~# curl http://192.168.30.39:9200/es-search-query-2021.05/_count | jq .
       % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                      Dload  Upload   Total   Spent    Left  Speed
@@ -225,13 +226,14 @@ tags = [
         "failed": 0
       }
     }
+    ```
 
 
 #### 5. 驗證資料是否有被監聽進去 Monitor ES 內
 
 * 簡單的對 es1 上面的 train index 查詢一筆資料
 
-
+    ```
     root@es1:~# curl -XGET "http://192.168.30.171:9200/train/_search" -H 'Content-Type: application/json' -d'
     > {
     >   "query": {
@@ -269,6 +271,7 @@ tags = [
         ]
       }
     }
+    ```
 
 
 * 進入 Monitor Kibana 做查詢
