@@ -229,36 +229,35 @@ backup_label  base              pg_clog  pg_ident.conf  pg_multixact  pg_serial 
 
 * 同上更改 ethonwu.mh02 上 pg_hba.conf 設定檔
 
-
-    
-    [root@ethonwu ~]# hostname
-    ethonwu.mh01
-    [root@ethonwu ~]# su - postgres
-    -bash-4.2$ vim data/pg_hba.conf
-    -bash-4.2$ cat data/pg_hba.conf | grep -v "#\|^$"
-    local   all             all                                     peer
-    host    all             all             127.0.0.1/32            ident
-    host    all             all             ::1/128                 ident
-    host    replication     replica     10.37.0.3/32                 md5
-    -bash-4.2$ logout
-
+```    
+[root@ethonwu ~]# hostname
+ethonwu.mh01
+[root@ethonwu ~]# su - postgres
+-bash-4.2$ vim data/pg_hba.conf
+-bash-4.2$ cat data/pg_hba.conf | grep -v "#\|^$"
+local   all             all                                     peer
+host    all             all             127.0.0.1/32            ident
+host    all             all             ::1/128                 ident
+host    replication     replica     10.37.0.3/32                 md5
+-bash-4.2$ logout
+```
 
 #### 將 ethonwu.mh02 改回 Slave 模式
 
 * 進入 ethonwu.mh02  將目前的 Master 模式切換成 Slave 模式，讓他去認 Master ( ethonwu.mh01 ) 的資料，並且關閉服務
 
 
-    
-    [root@ethonwu ~]# su - postgres
-    -bash-4.2$ cp -p back_slave_config/*.conf data/
-    -bash-4.2$ ls -al data/ | grep conf
-    -rw-------  1 postgres postgres  4301 Jun 14 11:03 pg_hba.conf
-    -rw-------  1 postgres postgres  1636 Jun 14 11:03 pg_ident.conf
-    -rw-------  1 postgres postgres 19812 Jun 14 13:41 postgresql.conf
-    -rw-r--r--  1 postgres postgres   131 Jun 14 13:42 recovery.conf
-    -bash-4.2$ logout
-    [root@ethonwu ~]# systemctl stop postgresql
-
+```    
+[root@ethonwu ~]# su - postgres
+-bash-4.2$ cp -p back_slave_config/*.conf data/
+-bash-4.2$ ls -al data/ | grep conf
+-rw-------  1 postgres postgres  4301 Jun 14 11:03 pg_hba.conf
+-rw-------  1 postgres postgres  1636 Jun 14 11:03 pg_ident.conf
+-rw-------  1 postgres postgres 19812 Jun 14 13:41 postgresql.conf
+-rw-r--r--  1 postgres postgres   131 Jun 14 13:42 recovery.conf
+-bash-4.2$ logout
+[root@ethonwu ~]# systemctl stop postgresql
+```
 
 ### 分別啟動 ethonwu.mh01 和 ethonwu.mh02 上的 PostgreSQL 
 
@@ -266,32 +265,31 @@ backup_label  base              pg_clog  pg_ident.conf  pg_multixact  pg_serial 
 啟動 ethonwu.mh01 上的 PostgreSQL
 
 
-    
+```    
+[root@ethonwu ~]# hostname
+ethonwu.mh01
+[root@ethonwu ~]# systemctl restart postgresql
+[root@ethonwu ~]# systemctl status postgresql
+● postgresql.service - PostgreSQL database server
+   Loaded: loaded (/usr/lib/systemd/system/postgresql.service; disabled; vendor preset: disabled)
+   Active: active (running) since Sat 2021-06-19 14:34:10 UTC; 4s ago
+  Process: 1443 ExecStart=/usr/bin/pg_ctl start -D ${PGDATA} -s -o -p ${PGPORT} -w -t 300 (code=exited, status=0/SUCCESS)
+  Process: 1438 ExecStartPre=/usr/bin/postgresql-check-db-dir ${PGDATA} (code=exited, status=0/SUCCESS)
+ Main PID: 1447 (postgres)
+    Tasks: 7
+   Memory: 25.0M
+   CGroup: /system.slice/postgresql.service
+           ├─1447 /usr/bin/postgres -D /var/lib/pgsql/data -p 5432
+           ├─1448 postgres: logger process
+           ├─1450 postgres: checkpointer process
+           ├─1451 postgres: writer process
+           ├─1452 postgres: wal writer process
+           ├─1453 postgres: autovacuum launcher process
+           └─1454 postgres: stats collector process
 
-     [root@ethonwu ~]# hostname
-    ethonwu.mh01
-    [root@ethonwu ~]# systemctl restart postgresql
-    [root@ethonwu ~]# systemctl status postgresql
-    ● postgresql.service - PostgreSQL database server
-       Loaded: loaded (/usr/lib/systemd/system/postgresql.service; disabled; vendor preset: disabled)
-       Active: active (running) since Sat 2021-06-19 14:34:10 UTC; 4s ago
-      Process: 1443 ExecStart=/usr/bin/pg_ctl start -D ${PGDATA} -s -o -p ${PGPORT} -w -t 300 (code=exited, status=0/SUCCESS)
-      Process: 1438 ExecStartPre=/usr/bin/postgresql-check-db-dir ${PGDATA} (code=exited, status=0/SUCCESS)
-     Main PID: 1447 (postgres)
-        Tasks: 7
-       Memory: 25.0M
-       CGroup: /system.slice/postgresql.service
-               ├─1447 /usr/bin/postgres -D /var/lib/pgsql/data -p 5432
-               ├─1448 postgres: logger process
-               ├─1450 postgres: checkpointer process
-               ├─1451 postgres: writer process
-               ├─1452 postgres: wal writer process
-               ├─1453 postgres: autovacuum launcher process
-               └─1454 postgres: stats collector process
-    
-    Jun 19 14:34:09 ethonwu.mh01 systemd[1]: Starting PostgreSQL database server...
-    Jun 19 14:34:10 ethonwu.mh01 systemd[1]: Started PostgreSQL database server.
-
+Jun 19 14:34:09 ethonwu.mh01 systemd[1]: Starting PostgreSQL database server...
+Jun 19 14:34:10 ethonwu.mh01 systemd[1]: Started PostgreSQL database server.
+```
 
 
 啟動 ethonwu.mh02 上的 PostgreSQL
