@@ -229,6 +229,7 @@ backup_label  base              pg_clog  pg_ident.conf  pg_multixact  pg_serial 
 
 * 同上更改 ethonwu.mh02 上 pg_hba.conf 設定檔
 
+
 ```    
 [root@ethonwu ~]# hostname
 ethonwu.mh01
@@ -241,6 +242,7 @@ host    all             all             ::1/128                 ident
 host    replication     replica     10.37.0.3/32                 md5
 -bash-4.2$ logout
 ```
+
 
 #### 將 ethonwu.mh02 改回 Slave 模式
 
@@ -258,6 +260,7 @@ host    replication     replica     10.37.0.3/32                 md5
 -bash-4.2$ logout
 [root@ethonwu ~]# systemctl stop postgresql
 ```
+
 
 ### 分別啟動 ethonwu.mh01 和 ethonwu.mh02 上的 PostgreSQL 
 
