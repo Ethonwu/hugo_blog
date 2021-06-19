@@ -137,24 +137,23 @@ tags = [
 
 * 進入 postgres 的 home 目錄，使用 pg_basebackup 命令，透過在 Master 上創建的角色 replica 將資料複製到 Slave 的 postgres home 目錄
 
- 
-    [root@localhost ~]# su - postgres
-    Last login: Mon Jun 14 11:01:30 UTC 2021 on pts/0
-    -bash-4.2$ cd data/
-    -bash-4.2$ ls -al
-    total 0
-    drwx------ 2 postgres postgres  6 May  6 15:00 .
-    drwx------ 4 postgres postgres 75 Jun 14 10:59 ..
-    -bash-4.2$ pwd
-    /var/lib/pgsql/data
-    -bash-4.2$ pg_basebackup -F p -Xs --progress -D /var/lib/pgsql/data -h 10.37.0.2 -p 5432 -U replica --password
-    Password:
-    19362/19362 kB (100%), 1/1 tablespace
-    -bash-4.2$ ls
-    backup_label  global   pg_hba.conf    pg_log        pg_notify  pg_snapshots  pg_subtrans  pg_twophase  pg_xlog
-    base          pg_clog  pg_ident.conf  pg_multixact  pg_serial  pg_stat_tmp   pg_tblspc    PG_VERSION   postgresql.conf
-
-
+``` 
+[root@localhost ~]# su - postgres
+Last login: Mon Jun 14 11:01:30 UTC 2021 on pts/0
+-bash-4.2$ cd data/
+-bash-4.2$ ls -al
+total 0
+drwx------ 2 postgres postgres  6 May  6 15:00 .
+drwx------ 4 postgres postgres 75 Jun 14 10:59 ..
+-bash-4.2$ pwd
+/var/lib/pgsql/data
+-bash-4.2$ pg_basebackup -F p -Xs --progress -D /var/lib/pgsql/data -h 10.37.0.2 -p 5432 -U replica --password
+Password:
+19362/19362 kB (100%), 1/1 tablespace
+-bash-4.2$ ls
+backup_label  global   pg_hba.conf    pg_log        pg_notify  pg_snapshots  pg_subtrans  pg_twophase  pg_xlog
+base          pg_clog  pg_ident.conf  pg_multixact  pg_serial  pg_stat_tmp   pg_tblspc    PG_VERSION   postgresql.conf
+```
 ---
 
 
