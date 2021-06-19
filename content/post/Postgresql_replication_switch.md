@@ -124,29 +124,29 @@ back_master_config  back_slave_config  backups  data
 
 * 啟動 ethonwu.mh02 上的 PostgreSQL 
 
-    
 
-    -bash-4.2$ logout
-    [root@ethonwu ~]# systemctl restart postgresql
-    [root@ethonwu ~]# su - postgres
-    -bash-4.2$ psql
-    psql (9.2.24)
-    Type "help" for help.
-    
-    postgres=# \l
-                                 List of databases
-       Name    |  Owner   | Encoding  | Collate | Ctype |   Access privileges
-    -----------+----------+-----------+---------+-------+-----------------------
-     master_db | postgres | SQL_ASCII | C       | C     |
-     postgres  | postgres | SQL_ASCII | C       | C     |
-     template0 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
-               |          |           |         |       | postgres=CTc/postgres
-     template1 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
-               |          |           |         |       | postgres=CTc/postgres
-    (4 rows)
-    
-    postgres=#
+```    
+-bash-4.2$ logout
+[root@ethonwu ~]# systemctl restart postgresql
+[root@ethonwu ~]# su - postgres
+-bash-4.2$ psql
+psql (9.2.24)
+Type "help" for help.
 
+postgres=# \l
+                             List of databases
+   Name    |  Owner   | Encoding  | Collate | Ctype |   Access privileges
+-----------+----------+-----------+---------+-------+-----------------------
+ master_db | postgres | SQL_ASCII | C       | C     |
+ postgres  | postgres | SQL_ASCII | C       | C     |
+ template0 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
+           |          |           |         |       | postgres=CTc/postgres
+ template1 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
+           |          |           |         |       | postgres=CTc/postgres
+(4 rows)
+
+postgres=#
+```
 
 
 
@@ -154,27 +154,26 @@ back_master_config  back_slave_config  backups  data
 * 並且針對剛才設定的 DB  建立 Table 以及寫入資料
 
 
-    
-    postgres=# \c master_db
-    You are now connected to database "master_db" as user "postgres".
-    master_db=# CREATE TABLE switch_to_master ( NAME TEXT NOT NULL );
-    CREATE TABLE
-    master_db=# \d
-                  List of relations
-     Schema |       Name       | Type  |  Owner
-    --------+------------------+-------+----------
-     public | switch_to_master | table | postgres
-    (1 row)
-    
-    master_db=# INSERT INTO switch_to_master (name) VALUES ('ethon');
-    INSERT 0 1
-    master_db=# select * from switch_to_master;
-     name
-    -------
-     ethon
-    (1 row)
-    
-    master_db=#
+``` 
+postgres=# \c master_db
+You are now connected to database "master_db" as user "postgres".
+master_db=# CREATE TABLE switch_to_master ( NAME TEXT NOT NULL );
+CREATE TABLE
+master_db=# \d
+              List of relations
+ Schema |       Name       | Type  |  Owner
+--------+------------------+-------+----------
+ public | switch_to_master | table | postgres
+(1 row)   
+master_db=# INSERT INTO switch_to_master (name) VALUES ('ethon');
+INSERT 0 1
+master_db=# select * from switch_to_master;
+ name
+-------
+ ethon
+(1 row)
+
+```
 
 
 * 上述切換過程，成功將 Slave 切換成 Master ，有了 insert 的功能，並不能只有 select 的功能
@@ -188,41 +187,44 @@ back_master_config  back_slave_config  backups  data
 * 進入 Master ( ethonwu.mh01 ) 更改 data 目錄名稱，並且從新新建 data 資料夾設定權限為 700，因為在做 pg_basebackup 的時候，目錄必須為空
 
     
-    [root@ethonwu ~]# su - postgres
-    -bash-4.2$ pwd
-    /var/lib/pgsql
-    -bash-4.2$ mv data/ data_backup/
-    -bash-4.2$ mkdir data
-    -bash-4.2$ ll data
-    total 0
-    -bash-4.2$ ls -al
-    total 24
-    drwx------   5 postgres postgres  149 Jun 19 14:18 .
-    drwxr-xr-x. 32 root     root     4096 Jun 14 09:32 ..
-    -rw-------   1 postgres postgres  144 Jun 19 13:38 .bash_history
-    -rw-r--r--   1 postgres postgres   85 May  6 15:00 .bash_profile
-    -rw-------   1 postgres postgres  205 Jun 19 13:38 .psql_history
-    -rw-------   1 postgres postgres 1185 Jun 14 11:00 .viminfo
-    drwx------   2 postgres postgres    6 May  6 15:00 backups
-    drwxr-xr-x   2 postgres postgres    6 Jun 19 14:18 data
-    drwx------  15 postgres postgres  328 Jun 19 13:38 data_backup
-    -rw-------   1 postgres postgres 1223 Jun 14 09:32 initdb.log
-    -bash-4.2$ chmod 700 data/
+```
+[root@ethonwu ~]# su - postgres
+-bash-4.2$ pwd
+/var/lib/pgsql
+-bash-4.2$ mv data/ data_backup/
+-bash-4.2$ mkdir data
+-bash-4.2$ ll data
+total 0
+-bash-4.2$ ls -al
+total 24
+drwx------   5 postgres postgres  149 Jun 19 14:18 .
+drwxr-xr-x. 32 root     root     4096 Jun 14 09:32 ..
+-rw-------   1 postgres postgres  144 Jun 19 13:38 .bash_history
+-rw-r--r--   1 postgres postgres   85 May  6 15:00 .bash_profile
+-rw-------   1 postgres postgres  205 Jun 19 13:38 .psql_history
+-rw-------   1 postgres postgres 1185 Jun 14 11:00 .viminfo
+drwx------   2 postgres postgres    6 May  6 15:00 backups
+drwxr-xr-x   2 postgres postgres    6 Jun 19 14:18 data
+drwx------  15 postgres postgres  328 Jun 19 13:38 data_backup
+-rw-------   1 postgres postgres 1223 Jun 14 09:32 initdb.log
+-bash-4.2$ chmod 700 data/
+```
 
 
 * 將 ethonwu.mh02 上的資料備份回來
 
 
-    
-    [root@ethonwu ~]# su - postgres
-    -bash-4.2$ cd data
-    -bash-4.2$ ls
-    -bash-4.2$ pg_basebackup -F p -Xs --progress -D /var/lib/pgsql/data -h 10.37.0.3 -p 5432 -U replica --password
-    Password:
-    25796/25796 kB (100%), 1/1 tablespace
-    -bash-4.2$ ls
-    PG_VERSION    backup_label.old  global   pg_hba.conf    pg_log        pg_notify  pg_snapshots  pg_subtrans  pg_twophase  postgresql.conf
-    backup_label  base              pg_clog  pg_ident.conf  pg_multixact  pg_serial  pg_stat_tmp   pg_tblspc    pg_xlog
+```    
+[root@ethonwu ~]# su - postgres
+-bash-4.2$ cd data
+-bash-4.2$ ls
+-bash-4.2$ pg_basebackup -F p -Xs --progress -D /var/lib/pgsql/data -h 10.37.0.3 -p 5432 -U replica --password
+Password:
+25796/25796 kB (100%), 1/1 tablespace
+-bash-4.2$ ls
+PG_VERSION    backup_label.old  global   pg_hba.conf    pg_log        pg_notify  pg_snapshots  pg_subtrans  pg_twophase  postgresql.conf
+backup_label  base              pg_clog  pg_ident.conf  pg_multixact  pg_serial  pg_stat_tmp   pg_tblspc    pg_xlog
+```
 
 
 * 同上更改 ethonwu.mh02 上 pg_hba.conf 設定檔
@@ -329,47 +331,47 @@ back_master_config  back_slave_config  backups  data
 * 檢查 Table 資料
 
 
-    
-    [root@ethonwu ~]# su - postgres
-    -bash-4.2$ psql
-    psql (9.2.24)
-    Type "help" for help.
-    
-    postgres=# \l
-                                 List of databases
-       Name    |  Owner   | Encoding  | Collate | Ctype |   Access privileges
-    -----------+----------+-----------+---------+-------+-----------------------
-     master_db | postgres | SQL_ASCII | C       | C     |
-     postgres  | postgres | SQL_ASCII | C       | C     |
-     template0 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
-               |          |           |         |       | postgres=CTc/postgres
-     template1 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
-               |          |           |         |       | postgres=CTc/postgres
-    (4 rows)
-    
-    postgres=# \c master_db
-    You are now connected to database "master_db" as user "postgres".
-    master_db=# select * from switch_to_master;
-     name
-    -------
-     ethon
-    (1 row)
+```    
+[root@ethonwu ~]# su - postgres
+-bash-4.2$ psql
+psql (9.2.24)
+Type "help" for help.
 
+postgres=# \l
+                             List of databases
+   Name    |  Owner   | Encoding  | Collate | Ctype |   Access privileges
+-----------+----------+-----------+---------+-------+-----------------------
+ master_db | postgres | SQL_ASCII | C       | C     |
+ postgres  | postgres | SQL_ASCII | C       | C     |
+ template0 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
+           |          |           |         |       | postgres=CTc/postgres
+ template1 | postgres | SQL_ASCII | C       | C     | =c/postgres          +
+           |          |           |         |       | postgres=CTc/postgres
+(4 rows)
+
+postgres=# \c master_db
+You are now connected to database "master_db" as user "postgres".
+master_db=# select * from switch_to_master;
+ name
+-------
+ ethon
+(1 row)
+```
 
 
 * 查看 Replica 狀態
 
 
-    
-    master_db=# select * from pg_stat_replication;
-    pid  | usesysid | usename | application_name | client_addr | client_hostname | client_port |         backend_start         |   state   | sent_location | write_location | flush_location | replay_location
-    | sync_priority | sync_state
-    ------+----------+---------+------------------+-------------+-----------------+-------------+-------------------------------+-----------+---------------+----------------+----------------+-----------------
-    +---------------+------------
-     1941 |    16384 | replica | walreceiver      | 10.37.0.3   |                 |       40814 | 2021-06-19 14:36:55.704139+00 | streaming | 0/5000080     | 0/5000080      | 0/5000118      | 0/5000118
-    |             0 | async
-    (1 row)
-    
+```    
+master_db=# select * from pg_stat_replication;
+pid  | usesysid | usename | application_name | client_addr | client_hostname | client_port |         backend_start         |   state   | sent_location | write_location | flush_location | replay_location
+| sync_priority | sync_state
+------+----------+---------+------------------+-------------+-----------------+-------------+-------------------------------+-----------+---------------+----------------+----------------+-----------------
++---------------+------------
+ 1941 |    16384 | replica | walreceiver      | 10.37.0.3   |                 |       40814 | 2021-06-19 14:36:55.704139+00 | streaming | 0/5000080     | 0/5000080      | 0/5000118      | 0/5000118
+|             0 | async
+(1 row)
+``` 
 
 
 
