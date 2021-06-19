@@ -153,7 +153,7 @@ tags = [
     -bash-4.2$ ls
     backup_label  global   pg_hba.conf    pg_log        pg_notify  pg_snapshots  pg_subtrans  pg_twophase  pg_xlog
     base          pg_clog  pg_ident.conf  pg_multixact  pg_serial  pg_stat_tmp   pg_tblspc    PG_VERSION   postgresql.conf
-
+    
 
 #### 3. 修改 Slave 相關設定檔 
 
