@@ -33,12 +33,13 @@ tags = [
 
 * PostgreSQL rpm version ( 安裝方法是使用 rpm 的方式進行安裝 repo 來源是使用原生 DVD 底下的套件 )， rpm 安裝的 postgres home 目錄在 /var/lib/pgsql 底下
     
-
-    [root@ethon ~]# rpm -qa | grep postgresql
-    postgresql-libs-9.2.24-4.el7_8.x86_64
-    postgresql-server-9.2.24-4.el7_8.x86_64
-    postgresql-contrib-9.2.24-4.el7_8.x86_64
-    postgresql-9.2.24-4.el7_8.x86_64
+```
+[root@ethon ~]# rpm -qa | grep postgresql
+postgresql-libs-9.2.24-4.el7_8.x86_64
+postgresql-server-9.2.24-4.el7_8.x86_64
+postgresql-contrib-9.2.24-4.el7_8.x86_64
+postgresql-9.2.24-4.el7_8.x86_64
+```
 
 ### 在 Master 上建立 DB ，並且關閉服務
 
