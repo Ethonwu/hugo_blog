@@ -2,7 +2,7 @@
 author = "Ethon Wu"
 title = "PostgreSQL replication 機制設定 (一)"
 date = "2020-11-17T13:48:00+08:00"
-description = "PostgreSQL replication 機制設定"
+description = "PostgreSQL replication 機制設定 (一)"
 tags = [
     "PostgreSQL","streaming replication"
 ]
