@@ -137,6 +137,7 @@ tags = [
 
 * 進入 postgres 的 home 目錄，使用 pg_basebackup 命令，透過在 Master 上創建的角色 replica 將資料複製到 Slave 的 postgres home 目錄
 
+
 ``` 
 [root@localhost ~]# su - postgres
 Last login: Mon Jun 14 11:01:30 UTC 2021 on pts/0
@@ -154,6 +155,8 @@ Password:
 backup_label  global   pg_hba.conf    pg_log        pg_notify  pg_snapshots  pg_subtrans  pg_twophase  pg_xlog
 base          pg_clog  pg_ident.conf  pg_multixact  pg_serial  pg_stat_tmp   pg_tblspc    PG_VERSION   postgresql.conf
 ```
+
+
 ---
 
 
